@@ -2,19 +2,23 @@
   "name": "cantine-app-backend",
   "version": "0.0.1",
   "description": "",
-  "main": "src/status.js",
+  "main": "build/status.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "tsc -w",
     "lint": "tslint '*.ts'",
-    "deploy": "npx serverless deploy"
+    "build": "tsc",
+    "deploy": "npx serverless deploy",
+    "deploy-status": "npx serverless deploy function --function status200"
   },
   "keywords": [],
   "author": "Steffen Wentzel <steffen.wentzel@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.3",
     "@types/aws-sdk": "0.0.42",
     "@types/node": "^7.0.5",
+    "@types/uuid": "^3.4.3",
     "tslint": "^5.5.0",
     "tslint-config-standard": "^6.0.1",
     "typescript": "^2.4.2"

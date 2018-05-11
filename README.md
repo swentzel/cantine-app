@@ -1,17 +1,25 @@
-# Cantine-App backend
+# Cantine-App Backend
 
 Backend for the cantine-app.
 
 
-# Install
+# Install development dependencies
 
-You can compile the ts files in this directory by 1st installing typescript via
+## NPM & Node
+Make sure you have installed the compatible versions of node (v8.10.0) and npm (> 6).
+I recommend using nvm (https://github.com/creationix/nvm), but you can use any other package manager.
+
+
+## Typescript
+You can compile the ts files in this directory by 1st installing typescript via:
 
 `npm install -g typescript`
 
-then
+## Parcel
+`npm install -g parcel-bundler`
 
-`npm i`
+## Everything else
+`npm install`
 
 ## Compile TypeScript
 You can then run the compiler by running `tsc` in this directory. It will pull the settings from .tsconfig and extra @types

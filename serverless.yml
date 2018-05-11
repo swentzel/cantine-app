@@ -14,8 +14,8 @@ provider:
   # environment: ${file(env.yml):${self:custom.currentStage}}
 
 functions:
-  create:
-    handler: src/status.http200
+  status200:
+    handler: build/status.http200
     events:
       - http:
           path: status

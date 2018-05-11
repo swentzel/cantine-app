@@ -5,7 +5,8 @@ module.exports.http200 = (event, context, callback) => {
     // create a response
     const response = {
         statusCode: 200,
-        body: 'Serverless setup successful!'
+        body: 'Serverless setup successfull, including parcel!'
     };
     callback(null, response);
 };
+//# sourceMappingURL=status.js.map
