@@ -1,0 +1,323 @@
+{
+  "service": {
+    "service": "cantine-app-backend",
+    "serviceObject": {
+      "name": "cantine-app-backend"
+    },
+    "provider": {
+      "stage": "dev",
+      "region": "eu-central-1",
+      "variableSyntax": "\\${([ ~:a-zA-Z0-9._'\",\\-\\/\\(\\)]+?)}",
+      "name": "aws",
+      "runtime": "nodejs8.10",
+      "versionFunctions": true,
+      "remoteFunctionData": null,
+      "compiledCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "ServerlessDeploymentBucket": {
+            "Type": "AWS::S3::Bucket"
+          },
+          "CreateLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/cantine-app-backend-dev-create"
+            }
+          },
+          "IamRoleLambdaExecution": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+              "AssumeRolePolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Effect": "Allow",
+                    "Principal": {
+                      "Service": [
+                        "lambda.amazonaws.com"
+                      ]
+                    },
+                    "Action": [
+                      "sts:AssumeRole"
+                    ]
+                  }
+                ]
+              },
+              "Policies": [
+                {
+                  "PolicyName": {
+                    "Fn::Join": [
+                      "-",
+                      [
+                        "dev",
+                        "cantine-app-backend",
+                        "lambda"
+                      ]
+                    ]
+                  },
+                  "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:CreateLogStream"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/cantine-app-backend-dev-create:*"
+                          }
+                        ]
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:PutLogEvents"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/cantine-app-backend-dev-create:*:*"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "Path": "/",
+              "RoleName": {
+                "Fn::Join": [
+                  "-",
+                  [
+                    "cantine-app-backend",
+                    "dev",
+                    "eu-central-1",
+                    "lambdaRole"
+                  ]
+                ]
+              }
+            }
+          },
+          "CreateLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/cantine-app-backend/dev/1526038455889-2018-05-11T11:34:15.889Z/cantine-app-backend.zip"
+              },
+              "FunctionName": "cantine-app-backend-dev-create",
+              "Handler": "src/status.http200",
+              "MemorySize": 1024,
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              },
+              "Runtime": "nodejs8.10",
+              "Timeout": 6
+            },
+            "DependsOn": [
+              "CreateLogGroup",
+              "IamRoleLambdaExecution"
+            ]
+          },
+          "CreateLambdaVersionfi5BnW0fZgoDYfNxBCrDCDCUaJplvkNr2yxqkx9IY1w": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "CreateLambdaFunction"
+              },
+              "CodeSha256": "rkvCPo/Q1glMil+BlxyKDdUWXOxsbifEfQ3eA1ObQ0U="
+            }
+          },
+          "ApiGatewayRestApi": {
+            "Type": "AWS::ApiGateway::RestApi",
+            "Properties": {
+              "Name": "dev-cantine-app-backend",
+              "EndpointConfiguration": {
+                "Types": [
+                  "EDGE"
+                ]
+              }
+            }
+          },
+          "ApiGatewayResourceStatus": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "status",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodStatusGet": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "GET",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceStatus"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "CreateLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            }
+          },
+          "ApiGatewayDeployment1526038455902": {
+            "Type": "AWS::ApiGateway::Deployment",
+            "Properties": {
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "StageName": "dev"
+            },
+            "DependsOn": [
+              "ApiGatewayMethodStatusGet"
+            ]
+          },
+          "CreateLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "CreateLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": {
+              "Ref": "ServerlessDeploymentBucket"
+            }
+          },
+          "CreateLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "CreateLambdaVersionfi5BnW0fZgoDYfNxBCrDCDCUaJplvkNr2yxqkx9IY1w"
+            }
+          },
+          "ServiceEndpoint": {
+            "Description": "URL of the service endpoint",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  "https://",
+                  {
+                    "Ref": "ApiGatewayRestApi"
+                  },
+                  ".execute-api.eu-central-1.amazonaws.com/dev"
+                ]
+              ]
+            }
+          }
+        }
+      },
+      "coreCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "ServerlessDeploymentBucket": {
+            "Type": "AWS::S3::Bucket"
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": {
+              "Ref": "ServerlessDeploymentBucket"
+            }
+          }
+        }
+      },
+      "vpc": {}
+    },
+    "custom": {
+      "defaultStage": "dev",
+      "currentStage": "dev"
+    },
+    "functions": {
+      "create": {
+        "handler": "src/status.http200",
+        "events": [
+          {
+            "http": {
+              "path": "status",
+              "method": "get",
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "name": "cantine-app-backend-dev-create",
+        "package": {},
+        "vpc": {}
+      }
+    },
+    "artifact": "/home/ec2-user/environment/cantine-app-backend/.serverless/cantine-app-backend.zip"
+  },
+  "package": {
+    "artifactDirectoryName": "serverless/cantine-app-backend/dev/1526038455889-2018-05-11T11:34:15.889Z",
+    "artifact": "cantine-app-backend.zip"
+  }
+}
