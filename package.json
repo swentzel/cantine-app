@@ -17,9 +17,14 @@
   "devDependencies": {
     "@types/aws-lambda": "^8.10.3",
     "@types/aws-sdk": "0.0.42",
+    "@types/jest": "^22.2.3",
     "@types/node": "^7.0.5",
     "@types/uuid": "^3.4.3",
+    "jest": "^22.4.3",
+    "lambda-utilities": "0.0.3",
+    "lamprox": "^0.14.0",
     "serverless-plugin-typescript": "^1.1.5",
+    "ts-jest": "^22.4.6",
     "tslint": "^5.5.0",
     "tslint-config-standard": "^6.0.1",
     "typescript": "^2.4.2"
