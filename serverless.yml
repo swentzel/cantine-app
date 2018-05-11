@@ -13,9 +13,12 @@ provider:
   region: eu-central-1
   # environment: ${file(env.yml):${self:custom.currentStage}}
 
+plugins:
+  - serverless-plugin-typescript
+
 functions:
   status200:
-    handler: build/status.http200
+    handler: src/status.http200
     events:
       - http:
           path: status

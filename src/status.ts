@@ -8,7 +8,7 @@ module.exports.http200 = (event, context, callback) => {
     // create a response
     const response = {
       statusCode: 200,
-      body: 'Serverless setup successfull, including typescript!'
+      body: 'Serverless setup successfull, including typescript with plugin!'
     }
     callback(null, response);
 }
