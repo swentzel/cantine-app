@@ -4,7 +4,7 @@
   "description": "",
   "main": ".build/status.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npx jest --config jestconfig.json",
     "watch": "tsc -w",
     "lint": "tslint '*.ts'",
     "build": "tsc",
@@ -17,6 +17,7 @@
   "devDependencies": {
     "@types/aws-lambda": "^8.10.3",
     "@types/aws-sdk": "0.0.42",
+    "@types/cheerio": "^0.22.7",
     "@types/jest": "^22.2.3",
     "@types/node": "^7.0.5",
     "@types/uuid": "^3.4.3",
@@ -30,6 +31,8 @@
     "typescript": "^2.4.2"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "cheerio": "^1.0.0-rc.2",
     "uuid": "^3.1.0"
   }
 }
