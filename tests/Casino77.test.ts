@@ -38,7 +38,7 @@ describe('src/services/Casino77', () => {
     let casino77 = new Casino77();
     let tageskartenLink = await casino77.getTageskartenLink();
     
-    let tageskarte = casino77.analyzeTageskartenPdf(tageskartenLink);
+    let tageskarte = await casino77.analyzeTageskartenPdf(tageskartenLink);
         
     expect(true).toEqual(true);
          
