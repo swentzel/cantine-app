@@ -3,9 +3,8 @@ import { Casino77 } from '../src/services/Casino77';
 
 describe('src/services/Casino77', () => {
   
+  
   it('Casino77.getWochenkartenLink', async () => {
-    
-    // run tests
     let casino77 = new Casino77();
     let wochenkartenLink = await casino77.getWochenkartenLink();
     
@@ -31,17 +30,20 @@ describe('src/services/Casino77', () => {
          
   });
   
-  it('Casino77.analyzeTageskartenPdf', async () => {
+  
+  test('Casino77.downloadPdf Tageskarte', async () => {
     
     // expect.assertions(1);
     // run tests
     let casino77 = new Casino77();
     let tageskartenLink = await casino77.getTageskartenLink();
     
-    let tageskarte = await casino77.analyzeTageskartenPdf(tageskartenLink);
+    let tageskarte = await casino77.downloadPdf(tageskartenLink);
         
-    expect(true).toEqual(true);
-         
   });
+  
+ 
+  
+  
   
 });

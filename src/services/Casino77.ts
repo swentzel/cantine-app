@@ -3,8 +3,10 @@ import Axios from 'axios';
 import Cheerio from 'cheerio';
 import Fs from 'fs';
 import Path from 'path';
-import PDFParser from "pdf2json";
+import PDFParser from 'pdf2json';
+import Download from 'image-downloader';
 const util = require('util');
+
 
 
 export class Casino77  {
@@ -12,7 +14,8 @@ export class Casino77  {
     homepage: string;
     
     constructor() {
-        this.homepage = 'http://www.nbr.de/3/de/casino-77.nbr';
+        this.domain = 'http://www.nbr.de';
+        this.homepage = `${this.domain}/3/de/casino-77.nbr`;
         this.pathToUlContainer = 'ul.CssSpeiseplanItems';
     }
     
@@ -53,7 +56,7 @@ export class Casino77  {
               // console.log(pdfLink);
             });
             
-            return `${this.homepage}${pdfLink}`;
+            return `${this.domain}${pdfLink}`;
             
         } catch (error) {
             console.error(error);
@@ -95,7 +98,7 @@ export class Casino77  {
               pdfLink = dom(elem).children('div').children('a').attr('href');
             });
             
-            return `${this.homepage}${pdfLink}`;
+            return `${this.domain}${pdfLink}`;
             
         } catch (error) {
             console.error(error);
@@ -118,55 +121,38 @@ export class Casino77  {
         
         console.log(pathToPdf);
         
-        // console.log(Fs.statSync(pathToPdf));
+        console.log(Fs.statSync(pathToPdf));
         
-        pdfParser.loadPDF(pathToPdf);
         
-        return new Promise(function(resolve, reject) {
-            pdfParser.on("pdfParser_dataReady", pdfData => {
-                console.log(JSON.stringify(pdfData));
-                resolve();
-            });
-            pdfParser.on("pdfParser_dataError", errData => {
-                console.error(errData.parserError);
-                reject();
-            });
-        });
         
+        
+    }
+    
+    async convertPdfToImage(pdf: string) {
+        // nTODO: https://github.com/mozilla/pdf.js/blob/master/examples/node/pdf2png/pdf2png.js
         
     }
     
     
     async downloadPdf(pdfLink: string) {
-        const url = 'http://www.nbr.de/Downloads/Tageskarte%20Neu_xls%2014_05_18.pdf';
         const dirPath = Path.resolve(__dirname, '../../downloads');
-        const path = Path.resolve(dirPath, 'tageskarte.pdf');
+        const path = Path.resolve(dirPath, '20180515_tageskarte.pdf');
         
         // create directory if it doesn't exist
         if (!Fs.existsSync(dirPath)) {
             Fs.mkdirSync(dirPath);
         }
         
-        let downloadResult = await Axios({
-          method:'get',
-          url:pdfLink,
-          responseType:'stream'
-        });
-        // console.log(downloadResult);
-        
-        let writeStream = Fs.createWriteStream(path);
-        downloadResult.data.pipe(writeStream);
-        // console.log(writeStream);
-        
-        
-        return new Promise(function(resolve, reject) {
-           downloadResult.data.on('end', () => {
-              resolve(path);
-            });
-            downloadResult.data.on('error', () => {
-              reject()
-            });
-        });
+        try {
+          const options = {
+            url: pdfLink,
+            dest: path
+          };
+          const { filename, pdf } = await Download.image(options);
+          return filename;
+        } catch (e) {
+          console.log(e);
+        }
         
     }
     
