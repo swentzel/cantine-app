@@ -19,14 +19,8 @@ export class APIResponse {
 
         const response = {
             statusCode: 200,
-            headers: {
-                'Cache-Control': 'no-store',
-                'Access-Control-Allow-Origin' : '*',
-                'X-Stage': this.stage
-            },
-            data: data
+            body: JSON.stringify(data)
         };
-
-        callback(undefined, response);
+        callback(null, response);
     }
 }
