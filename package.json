@@ -9,7 +9,8 @@
     "lint": "tslint '*.ts'",
     "build": "tsc",
     "deploy": "npx serverless deploy",
-    "deploy-status": "npx serverless deploy function --function status200"
+    "deploy-status": "npx serverless deploy function --function status200",
+    "deploy-cantines": "npx serverless deploy function --function cantines"
   },
   "keywords": [],
   "author": "Steffen Wentzel <steffen.wentzel@gmail.com>",

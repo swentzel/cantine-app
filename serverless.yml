@@ -23,4 +23,12 @@ functions:
       - http:
           path: status
           method: get
-          # cors: true
+          cors: true
+
+  cantines:
+      handler: src/cantines.list
+      events:
+        - http:
+            path: cantines
+            method: get
+            cors: true
