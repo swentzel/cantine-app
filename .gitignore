@@ -64,3 +64,6 @@ typings/
 .serverless
 .cache
 .build
+
+#IDEA
+.idea
