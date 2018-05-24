@@ -1,7 +1,7 @@
 /**
  * Lunch
  */
-import * as moment from 'moment';
+import moment = require('moment');
 
 export class Lunch {
     private _name: string;
@@ -25,19 +25,12 @@ export class Lunch {
 
     set day(value?: moment) {
         if (value instanceof Date) {
-            this.day = moment(value);
+            this._day = moment(value);
         } else if (value instanceof moment) {
-            this.day = value;
+            this._day = value;
         } else {
-            this.day = moment();
+            this._day = moment();
         }
-    }
-
-
-    getKey(): string {
-        const timestamp = this.day.valueOf();
-        const key = `${timestamp}_${this._name}`;
-        return key;
     }
 
     toJson() {

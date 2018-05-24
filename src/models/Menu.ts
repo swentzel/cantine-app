@@ -2,18 +2,31 @@
  * Lunch
  */
 import { Lunch } from './Lunch';
-import * as moment from 'moment';
+import moment = require('moment');
 
 export class Menu {
+    get day(): any {
+        return this._day;
+    }
+
+    set day(value: any) {
+        if (value instanceof Date) {
+            this._day = moment(value);
+        } else if (value instanceof moment) {
+            this._day = value;
+        } else {
+            this._day = moment();
+        }
+    }
 
     name: string;
     lunches: Array<Lunch>;
-    day: moment;
+    private _day: any;
 
-    constructor(name: string, day?: moment) {
+    constructor(name: string, day?: any) {
         this.name = name;
         this.lunches = [];
-
+        this.day = day;
     }
 
     addLunch(lunch: Lunch) {

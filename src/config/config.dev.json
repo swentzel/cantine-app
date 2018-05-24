@@ -1,0 +1,17 @@
+{
+  "key": "value",
+  "cantines": [
+    {
+      "name": "Testkantine auf Dev",
+      "url": "http://some-canti.ne"
+    },
+    {
+      "name": "SuperDupa Rösti",
+      "url": "http://der-roesti-lad.en"
+    },
+    {
+      "name": "Die Kantine für Gourmets",
+      "url": "http://mcdonalds.de"
+    }
+  ]
+}

@@ -17,7 +17,7 @@ export class APIResponse {
 
     success(callback, data) {
 
-        data.stage = this.stage;
+        data['stage'] = this.stage;
 
         const response = {
             statusCode: 200,

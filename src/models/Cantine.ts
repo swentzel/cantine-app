@@ -8,7 +8,6 @@ export class Cantine {
     constructor(name: string) {
         this.name = name;
     }
-    
     toJson() {
          let cantineJson = {
             name: this.name
