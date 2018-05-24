@@ -8,10 +8,10 @@ module.exports.list = (event, context, callback) => {
     // create a response
     const api = new APIResponse();
     
-    const data = JSON.stringify({
+    const data = {
       message: 'cantines.list',
-      something: 'else'
-    });
+      something: { else: 'is here', else2: 'and here' }
+    };
     
     api.success(callback, data);
     
