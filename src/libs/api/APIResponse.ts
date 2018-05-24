@@ -17,8 +17,11 @@ export class APIResponse {
 
     success(callback, data) {
 
+        data.stage = this.stage;
+
         const response = {
             statusCode: 200,
+            stage: this.stage,
             body: JSON.stringify(data)
         };
         callback(null, response);

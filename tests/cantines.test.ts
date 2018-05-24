@@ -9,11 +9,11 @@ describe('src/cantines', () => {
   describe('API service cantines.list', () => {
 
     test('should return response status 200', done => {
-      const event = generateDummyAPIGatewayEvent()
+      const event = generateDummyAPIGatewayEvent();
       const callback = generateMockCallback((error, result: any) => {
-        callback.once()
-        expect(result.status).toBe(200);
-        done()
+        callback.once();
+        expect(result.statusCode).toBe(200);
+        done();
       })
       invokeHandler(list as Handler, { event, callback })
     });

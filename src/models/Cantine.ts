@@ -10,7 +10,7 @@ export class Cantine {
     }
     
     toJson() {
-         cantineJson = {
+         let cantineJson = {
             name: this.name
          }
          return cantineJson;
